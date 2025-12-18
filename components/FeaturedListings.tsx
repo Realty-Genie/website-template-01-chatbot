@@ -96,7 +96,7 @@ export default function FeaturedListings() {
         <section className="py-20 bg-background text-white">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="mb-12 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif font-medium text-white/90">
+                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">
                         Featured Listings
                     </h2>
                     <div className="w-full h-[1px] bg-white/10 mt-8" />
