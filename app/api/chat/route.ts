@@ -1,60 +1,49 @@
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const SYSTEM_PROMPT = `You are Denise Mai AI, a premium, professional AI assistant for Denise Mai, a luxury real estate specialist. 
-Your goal is to provide exceptional service to clients interested in listings, neighborhoods, and real estate services.
-Be sophisticated, helpful, and knowledgeable. If asked about Denise Mai, emphasize her expertise in luxury real estate and her commitment to client satisfaction. 
-This is your cale`;
+import { AgentInputItem, Runner } from "@openai/agents";
+import { deniseMaiAgent } from "@/agents/chatbot";
+const conversation: AgentInputItem[] = [];
 
 export async function POST(req: Request) {
-  try {
-    const { messages }: { messages: Array<{ role: string; content?: string; parts?: Array<{ type: string; text: string }> }> } = await req.json();
+  const { message } = await req.json();
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...messages.map((m) => ({
-          role: m.role as 'user' | 'assistant' | 'system',
-          content: m.content || m.parts?.[0]?.text || '',
-        }))
-      ],
-      stream: true,
-    });
+  // Wrap user input as AgentInputItem
+  const userInput: AgentInputItem = {
+    type: "message",
+    role: "user",
+    content: [{ type: "input_text", text: message }]
+  };
+  conversation.push(userInput);
 
-    const stream = new ReadableStream({
+  const runner = new Runner();
+  const response = await runner.run(deniseMaiAgent, conversation, { stream: true });
+
+  const encoder = new TextEncoder();
+
+  return new Response(
+    new ReadableStream({
       async start(controller) {
-        const encoder = new TextEncoder();
-        try {
-          for await (const chunk of response) {
-            const content = chunk.choices[0]?.delta?.content;
-            if (content) {
-              controller.enqueue(encoder.encode(content));
-            }
-          }
-        } catch (err) {
-          controller.error(err);
-        } finally {
-          controller.close();
+        const nodeStream = response.toTextStream({ compatibleWithNodeStreams: true });
+        let msg = ""
+        for await (const chunk of nodeStream) {
+          const token = Buffer.from(chunk)
+          msg += token.toString()
+          controller.enqueue(encoder.encode(chunk));
         }
-      },
-    });
-
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    });
-  } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    return new Response(JSON.stringify({ error: errorMessage }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+        conversation.push({
+          type: 'message',
+          role: 'assistant',
+          status: 'completed',
+          content: [
+            {
+              type: 'output_text',
+              text: msg
+            }
+          ]
+        })
+        controller.close();
+      }
+    }),
+    {
+      headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-cache" }
+    }
+  );
 }
