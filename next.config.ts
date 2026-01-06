@@ -28,6 +28,11 @@ const nextConfig = {
         // port: '',
         // pathname: '/your_imagekit_id/**', 
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
   },
 };

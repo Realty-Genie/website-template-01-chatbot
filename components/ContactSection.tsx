@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 export default function ContactSection() {
     return (
-        <section className="relative bg-background py-20 pb-40">
+        <section className="relative bg-background py-20 pb-40" id="contact">
             <div className="container mx-auto px-6 md:px-12 relative z-10">
                 <div className="bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
                     {/* Left Column: Form */}
