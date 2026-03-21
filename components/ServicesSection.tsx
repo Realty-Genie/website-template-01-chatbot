@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
@@ -42,6 +44,11 @@ export default function ServicesSection() {
                             </p>
                             <Button
                                 className="hidden md:flex border border-primary/50 text-white bg-primary/10 backdrop-blur-sm hover:bg-primary hover:text-black hover:border-primary rounded-xl px-8 py-6 tracking-widest text-xs uppercase font-medium transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("click", { button_text: "View All Listings", location: "services" });
+                                    }
+                                }}
                             >
                                 View All Listings
                             </Button>
@@ -74,6 +81,11 @@ export default function ServicesSection() {
                             </p>
                             <Button
                                 className="hidden md:flex border border-primary/50 text-white bg-primary/10 backdrop-blur-sm hover:bg-primary hover:text-black hover:border-primary rounded-xl px-8 py-6 tracking-widest text-xs uppercase font-medium transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("click", { button_text: "Home Valuation", location: "services" });
+                                    }
+                                }}
                             >
                                 Home Valuation
                             </Button>

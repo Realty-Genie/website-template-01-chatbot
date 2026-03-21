@@ -87,7 +87,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col items-start group">
           <span className="text-3xl font-serif text-white tracking-widest font-bold group-hover:text-primary transition-colors">
-            MAI FUCKER
+            MAI FUCKE
           </span>
           <span className="text-[10px] text-primary/90 tracking-[0.4em] uppercase font-light pl-0.5 text-primary">
             Real Estate
@@ -147,6 +147,14 @@ export function Navbar() {
           <Button
             asChild
             className="hidden md:flex border border-primary/50 text-white bg-primary/10 backdrop-blur-sm hover:bg-primary hover:text-black hover:border-primary rounded-xl px-8 py-6 tracking-widest text-xs uppercase font-medium transition-all duration-300"
+            onClick={() => {
+              if (typeof window !== "undefined" && window.crmTracker) {
+                window.crmTracker.track("click", {
+                  button_text: "Contact Us",
+                  location: "navbar",
+                });
+              }
+            }}
           >
             <Link href="/#contact">Contact Us</Link>
           </Button>

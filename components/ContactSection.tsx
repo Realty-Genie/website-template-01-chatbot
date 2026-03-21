@@ -4,6 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function ContactSection() {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        // Track the form submission manually 
+        if (typeof window !== "undefined" && window.crmTracker) {
+            window.crmTracker.track("contact_form_submit", {
+                form_name: "Contact Section Form"
+            });
+        }
+    };
+
     return (
         <section className="relative bg-background py-20 pb-40" id="contact">
             <div className="container mx-auto px-6 md:px-12 relative z-10">
@@ -22,7 +33,7 @@ export default function ContactSection() {
                             </p>
                         </div>
 
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label htmlFor="name" className="text-xs uppercase tracking-widest text-white/50">
@@ -83,7 +94,7 @@ export default function ContactSection() {
                                 ></textarea>
                             </div>
 
-                            <Button className="w-full bg-primary text-black hover:bg-primary/90 font-medium tracking-wide uppercase py-6 text-xs">
+                            <Button type="submit" className="w-full bg-primary text-black hover:bg-primary/90 font-medium tracking-wide uppercase py-6 text-xs">
                                 Send Message
                             </Button>
                         </form>

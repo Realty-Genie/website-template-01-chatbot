@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
@@ -102,7 +104,15 @@ export default function FeaturedListings() {
                     {listings.map((item, idx) => (
                         <div
                             key={idx}
-                            className="group bg-[#222] rounded-2xl overflow-hidden hover:shadow-[0_0_20px_rgba(0,0,0,0.4)] transition-all duration-300 border border-white/5 hover:border-primary/30"
+                            className="group bg-[#222] rounded-2xl overflow-hidden hover:shadow-[0_0_20px_rgba(0,0,0,0.4)] transition-all duration-300 border border-white/5 hover:border-primary/30 cursor-pointer"
+                            onClick={() => {
+                                if (typeof window !== "undefined" && window.crmTracker) {
+                                    window.crmTracker.track("listing_click", {
+                                        address: item.address,
+                                        price: item.price
+                                    });
+                                }
+                            }}
                         >
                             <div className="relative aspect-[1/1] w-full overflow-hidden">
                                 <Image
@@ -137,7 +147,14 @@ export default function FeaturedListings() {
 
                 {/* Show New Listing Button */}
                 <div className="flex justify-center mt-12">
-                    <Button className="border border-primary/50 text-white bg-primary/10 backdrop-blur-sm hover:bg-primary hover:text-black hover:border-primary rounded-xl px-8 py-6 tracking-widest text-xs uppercase font-medium transition-all duration-300">
+                    <Button 
+                        className="border border-primary/50 text-white bg-primary/10 backdrop-blur-sm hover:bg-primary hover:text-black hover:border-primary rounded-xl px-8 py-6 tracking-widest text-xs uppercase font-medium transition-all duration-300"
+                        onClick={() => {
+                            if (typeof window !== "undefined" && window.crmTracker) {
+                                window.crmTracker.track("click", { button_text: "Show New Listing", location: "featured_listings" });
+                            }
+                        }}
+                    >
                         Show New Listing
                     </Button>
                 </div>

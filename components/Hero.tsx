@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/components/ui/input"
 import { Sparkles, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -49,7 +51,15 @@ export function Hero() {
               placeholder="Ask AI: 'Show me luxury condos in Coal Harbour w/ ocean view'..."
               className="border-0 bg-transparent text-white placeholder:text-white/70 focus-visible:ring-0 focus-visible:ring-offset-0 h-10 md:h-12 text-base md:text-lg font-light w-full"
             />
-            <Button size="icon" className="rounded-full w-10 h-10 md:w-12 md:h-12 bg-primary hover:bg-white hover:text-black text-black ml-2 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+            <Button 
+              size="icon" 
+              className="rounded-full w-10 h-10 md:w-12 md:h-12 bg-primary hover:bg-white hover:text-black text-black ml-2 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.crmTracker) {
+                  window.crmTracker.track("ai_search", { location: "hero" });
+                }
+              }}
+            >
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
             </Button>
           </div>

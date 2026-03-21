@@ -66,6 +66,11 @@ export default function Footer() {
                             <a
                                 href="mailto:denise@mairealestategroup.com"
                                 className="block text-primary hover:underline mt-2"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("email_click", { location: "footer" });
+                                    }
+                                }}
                             >
                                 denise@mairealestategroup.com
                             </a>
@@ -78,16 +83,40 @@ export default function Footer() {
                             Social
                         </h3>
                         <div className="flex space-x-4">
-                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300">
+                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("social_click", { platform: "facebook", location: "footer" });
+                                    }
+                                }}
+                            >
                                 <Facebook size={18} />
                             </Link>
-                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300">
+                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("social_click", { platform: "instagram", location: "footer" });
+                                    }
+                                }}
+                            >
                                 <Instagram size={18} />
                             </Link>
-                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300">
+                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("social_click", { platform: "linkedin", location: "footer" });
+                                    }
+                                }}
+                            >
                                 <Linkedin size={18} />
                             </Link>
-                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300">
+                            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all duration-300"
+                                onClick={() => {
+                                    if (typeof window !== "undefined" && window.crmTracker) {
+                                        window.crmTracker.track("social_click", { platform: "youtube", location: "footer" });
+                                    }
+                                }}
+                            >
                                 <Youtube size={18} />
                             </Link>
                         </div>
