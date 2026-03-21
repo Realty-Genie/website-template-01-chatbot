@@ -1,9 +1,9 @@
 "use client"; 
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function RouteTracker() {
+function Tracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -13,9 +13,20 @@ export default function RouteTracker() {
       const currentUrl = window.location.origin + pathname + 
         (searchParams.toString() ? `?${searchParams.toString()}` : "");
 
+      console.log("[CRM Tracker] Tracking page_view:", currentUrl);
       window.crmTracker.track("page_view", { url: currentUrl });
+    } else {
+      console.log("[CRM Tracker] Script not loaded yet or unavailable.");
     }
   }, [pathname, searchParams]);
 
   return null; 
+}
+
+export default function RouteTracker() {
+  return (
+    <Suspense fallback={null}>
+      <Tracker />
+    </Suspense>
+  );
 }
