@@ -10,13 +10,14 @@ export default function ContactSection() {
         const name = formData.get("name") as string;
         const email = formData.get("email") as string;
         const phone = formData.get("phone") as string;
+        const city = formData.get("city") as string;
         const message = formData.get("message") as string;
         
         // Track the form submission manually 
         if (typeof window !== "undefined" && window.crmTracker) {
             // Identify user with contact details
             if (email) {
-                window.crmTracker.identify(email, name, phone);
+                window.crmTracker.identify(email, name, phone, city);
             }
 
             window.crmTracker.track("contact_form_submit", {
@@ -24,6 +25,7 @@ export default function ContactSection() {
                 name,
                 email,
                 phone,
+                city,
                 message_length: message?.length || 0
             });
         }
@@ -88,15 +90,28 @@ export default function ContactSection() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label htmlFor="subject" className="text-xs uppercase tracking-widest text-white/50">
-                                        Subject
+                                    <label htmlFor="city" className="text-xs uppercase tracking-widest text-white/50">
+                                        City
                                     </label>
                                     <Input
-                                        id="subject"
-                                        placeholder="Buying a Home"
+                                        id="city"
+                                        name="city"
+                                        placeholder="Vancouver"
                                         className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50"
                                     />
                                 </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label htmlFor="subject" className="text-xs uppercase tracking-widest text-white/50">
+                                    Subject
+                                </label>
+                                <Input
+                                    id="subject"
+                                    name="subject"
+                                    placeholder="Buying a Home"
+                                    className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50"
+                                />
                             </div>
 
                             <div className="space-y-2">

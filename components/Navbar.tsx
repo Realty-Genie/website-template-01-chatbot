@@ -87,7 +87,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col items-start group">
           <span className="text-3xl font-serif text-white tracking-widest font-bold group-hover:text-primary transition-colors">
-            MAI FUCKE
+            MAI FUCK
           </span>
           <span className="text-[10px] text-primary/90 tracking-[0.4em] uppercase font-light pl-0.5 text-primary">
             Real Estate
