@@ -6,11 +6,25 @@ import { Input } from "@/components/ui/input";
 export default function ContactSection() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name") as string;
+        const email = formData.get("email") as string;
+        const phone = formData.get("phone") as string;
+        const message = formData.get("message") as string;
         
         // Track the form submission manually 
         if (typeof window !== "undefined" && window.crmTracker) {
+            // Identify user with contact details
+            if (email) {
+                window.crmTracker.identify(email, name, phone);
+            }
+
             window.crmTracker.track("contact_form_submit", {
-                form_name: "Contact Section Form"
+                form_name: "Contact Section Form",
+                name,
+                email,
+                phone,
+                message_length: message?.length || 0
             });
         }
     };
@@ -41,6 +55,7 @@ export default function ContactSection() {
                                     </label>
                                     <Input
                                         id="name"
+                                        name="name"
                                         placeholder="John Doe"
                                         className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50"
                                     />
@@ -51,6 +66,7 @@ export default function ContactSection() {
                                     </label>
                                     <Input
                                         id="email"
+                                        name="email"
                                         type="email"
                                         placeholder="john@example.com"
                                         className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50"
@@ -65,6 +81,7 @@ export default function ContactSection() {
                                     </label>
                                     <Input
                                         id="phone"
+                                        name="phone"
                                         type="tel"
                                         placeholder="(555) 123-4567"
                                         className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50"
@@ -88,6 +105,7 @@ export default function ContactSection() {
                                 </label>
                                 <textarea
                                     id="message"
+                                    name="message"
                                     rows={4}
                                     placeholder="Tell us a little about your real estate goals..."
                                     className="flex w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/20 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 disabled:cursor-not-allowed disabled:opacity-50"

@@ -38,6 +38,24 @@ export default function RootLayout({
         <Chatbot />
 
         <Script
+          id="crm-tracker-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.crmTracker = window.crmTracker || {
+                track: function(event, data) {
+                  console.log("[CRM Tracker] Track (queued):", event, data);
+                  (window._crmQ = window._crmQ || []).push(['track', event, data]);
+                },
+                identify: async function(email, name, phone, city) {
+                  console.log("[CRM Tracker] Identify (queued):", email, name, phone, city);
+                  (window._crmQ = window._crmQ || []).push(['identify', email, name, phone, city]);
+                }
+              };
+            `,
+          }}
+        />
+        <Script
           src="https://tracker-worker.green-feather-9c2c.workers.dev/tracker.js"
           data-key="4d759969-79a9-4c34-8362-a72df3540bbc"
           strategy="afterInteractive"
