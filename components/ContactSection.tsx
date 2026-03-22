@@ -3,8 +3,24 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const CRM_TRACKER_API_KEY = "4d759969-79a9-4c34-8362-a72df3540bbc";
+const CRM_BACKEND_BASE_URL = "https://realty-crm-130961755900.northamerica-northeast2.run.app";
+const CRM_IDENTIFY_URL = `${CRM_BACKEND_BASE_URL}/api/v1/trackers/identify`;
+
+function getVisitorId() {
+    if (typeof window === "undefined") return "";
+
+    let visitorId = window.localStorage.getItem("visitorId");
+    if (!visitorId) {
+        visitorId = window.crypto.randomUUID();
+        window.localStorage.setItem("visitorId", visitorId);
+    }
+
+    return visitorId;
+}
+
 export default function ContactSection() {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const name = formData.get("name") as string;
@@ -12,15 +28,30 @@ export default function ContactSection() {
         const phone = formData.get("phone") as string;
         const city = formData.get("city") as string;
         const message = formData.get("message") as string;
-        
-        // Track the form submission manually 
-        if (typeof window !== "undefined" && window.crmTracker) {
-            // Identify user with contact details
-            if (email) {
-                window.crmTracker.identify(email, name, phone, city);
-            }
 
-            window.crmTracker.track("contact_form_submit", {
+        if (email) {
+            try {
+                await fetch(CRM_IDENTIFY_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        apiKey: CRM_TRACKER_API_KEY,
+                        visitorId: getVisitorId(),
+                        email,
+                        name,
+                        phone,
+                        city,
+                    }),
+                });
+            } catch (error) {
+                console.error("[CRM Tracker] Direct identify failed:", error);
+            }
+        }
+
+        if (typeof window !== "undefined" && window.crmTracker) {
+            window.crmTracker.track("form_submit", {
                 form_name: "Contact Section Form",
                 name,
                 email,
@@ -42,7 +73,7 @@ export default function ContactSection() {
                                 Get In Touch
                             </span>
                             <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">
-                                Let's Connect
+                                Let&apos;s Connect
                             </h2>
                             <p className="text-white/60 font-light">
                                 Have a question or looking to buy/sell? Send us a message.
