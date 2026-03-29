@@ -57,8 +57,8 @@ export default function RootLayout({
         />
         <Script
           src="https://tracker-worker.green-feather-9c2c.workers.dev/tracker.js"
-          data-key="4d759969-79a9-4c34-8362-a72df3540bbc"
-          strategy="afterInteractive"
+          data-key="5f4faf2e-ecc4-49dc-a0c2-03592378406a"
+          defer
         />
       </body>
     </html>
