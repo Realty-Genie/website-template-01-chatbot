@@ -87,7 +87,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col items-start group">
           <span className="text-3xl font-serif text-white tracking-widest font-bold group-hover:text-primary transition-colors">
-            MAI FUC
+            MAI
           </span>
           <span className="text-[10px] text-primary/90 tracking-[0.4em] uppercase font-light pl-0.5 text-primary">
             Real Estate
@@ -106,20 +106,18 @@ export function Navbar() {
               <button className="flex items-center gap-2 hover:text-primary transition-colors">
                 {section.label}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    activeDropdown === section.label
-                      ? "rotate-180 text-primary"
-                      : ""
-                  }`}
+                  className={`w-4 h-4 transition-transform ${activeDropdown === section.label
+                    ? "rotate-180 text-primary"
+                    : ""
+                    }`}
                 />
               </button>
 
               <div
-                className={`absolute left-0 top-full mt-3 transition-all duration-200 ${
-                  activeDropdown === section.label
-                    ? "opacity-100 translate-y-0 visible"
-                    : "opacity-0 -translate-y-1 invisible"
-                }`}
+                className={`absolute left-0 top-full mt-3 transition-all duration-200 ${activeDropdown === section.label
+                  ? "opacity-100 translate-y-0 visible"
+                  : "opacity-0 -translate-y-1 invisible"
+                  }`}
               >
                 <div className="min-w-[240px] rounded-2xl border border-white/10 bg-[#0f0f0f]/95 shadow-xl shadow-black/40 backdrop-blur-md overflow-hidden">
                   {section.items.map((item) => (
